@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-vintage-paper text-vintage-ink;
+    background-image: 
+      url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03' /%3E%3C/svg%3E");
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .letter-card {
+    @apply bg-white/90 backdrop-blur-sm border-2 border-vintage-sepia/30 shadow-lg;
+    box-shadow: 
+      0 4px 6px -1px rgba(112, 66, 20, 0.1),
+      0 2px 4px -1px rgba(112, 66, 20, 0.06),
+      inset 0 0 0 1px rgba(244, 236, 216, 0.5);
+  }
+
+  .torn-edge {
+    position: relative;
+  }
+
+  .torn-edge::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(45deg, transparent 33.33%, white 33.33%, white 66.66%, transparent 66.66%),
+                linear-gradient(-45deg, transparent 33.33%, white 33.33%, white 66.66%, transparent 66.66%);
+    background-size: 8px 16px;
+    background-position: 0 0, 4px 0;
+  }
+
+  .ink-stamp {
+    @apply inline-block px-4 py-2 border-2 border-vintage-stamp text-vintage-stamp font-typewriter text-sm;
+    transform: rotate(-2deg);
+    box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.1);
+  }
+
+  .typewriter-text {
+    overflow: hidden;
+    border-right: 2px solid;
+    white-space: nowrap;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  }
+
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: currentColor }
+  }
+
+  /* Radial Gradient Utility */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #F4ECD8;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #704214;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #8B4513;
+  }
+
+  /* Smooth Transitions */
+  * {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+}
+
+/* Prevent layout shift during page transitions */
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}
