@@ -1,9 +1,10 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
-import { ArrowLeft, Heart, Shield, Lock, CreditCard, Smartphone, Building2, Check, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowLeft, Heart, Shield, Lock, CreditCard, Smartphone, Building2, Check, Loader2, AlertCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { donationAPI, getUser, isAuthenticated } from '@/lib/api';
 
 const DONATION_AMOUNTS = [
   { value: 100, impact: 'Provides meals for 2 people' },
@@ -27,6 +28,21 @@ export default function PaymentPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [donorName, setDonorName] = useState('');
   const [donorEmail, setDonorEmail] = useState('');
+  const [error, setError] = useState('');
+
+  // Check authentication and pre-fill user data
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.push('/auth');
+      return;
+    }
+
+    const user = getUser();
+    if (user) {
+      setDonorName(user.name || '');
+      setDonorEmail(user.email || '');
+    }
+  }, [router]);
 
   const finalAmount = selectedAmount || parseInt(customAmount) || 0;
   const selectedImpact = DONATION_AMOUNTS.find(a => a.value === selectedAmount)?.impact || 'Makes a meaningful difference';
@@ -52,12 +68,30 @@ export default function PaymentPage() {
     if (!selectedPayment || !donorName || !donorEmail) return;
     
     setIsProcessing(true);
+    setError('');
     
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsProcessing(false);
-    setStep('success');
+    try {
+      const paymentMethodMap: { [key: string]: string } = {
+        'upi': 'UPI',
+        'card': 'Card',
+        'netbanking': 'Net Banking'
+      };
+
+      const response = await donationAPI.create({
+        amount: finalAmount,
+        paymentMethod: paymentMethodMap[selectedPayment],
+        donorName,
+        donorEmail
+      });
+
+      if (response.success) {
+        setStep('success');
+      }
+    } catch (err: any) {
+      setError(err.message || 'Payment failed. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -301,6 +335,18 @@ export default function PaymentPage() {
                       })}
                     </div>
                   </div>
+
+                  {/* Error Message */}
+                  {error && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mt-4 p-4 bg-red-50 border-2 border-red-200 rounded-xl flex items-start gap-3"
+                    >
+                      <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                      <p className="font-body text-sm text-red-800">{error}</p>
+                    </motion.div>
+                  )}
 
                   {/* Pay Button */}
                   <motion.button

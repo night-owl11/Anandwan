@@ -1,155 +1,241 @@
-# Anandwan - Stories That Must Be Told
+# 🌟 Anandwan Storytelling Platform
 
-A visually stunning, emotionally immersive storytelling platform with a vintage "old letters / archival" aesthetic combined with modern interactive animations.
+A full-stack web application for preserving and sharing the stories of Anandwan with a vintage "old letters/archival" aesthetic.
 
-## Mission
+## 📖 About
 
 "We are building a system that ensures no story of Anandwan ever goes unseen again."
 
-This platform transforms real on-ground experiences into powerful, scalable digital narratives.
+This platform enables volunteers to make donations and administrators to manage donation records, all while celebrating the heritage and stories of Anandwan.
 
-## ✨ Key Features
+## ✨ Features
 
-### Cinematic Authentication (`/auth`)
-- Immersive entry experience with floating particles
-- 3D card animations with perspective effects
-- Typewriter text animation
-- Sepia light rays and atmospheric effects
-- Two roles: Visitor & Authorizer
+### 🎨 Frontend
+- **Landing Page** - Beautiful vintage-themed homepage with hero section, stories, journey timeline, and contact
+- **Gallery** - Curated video gallery showcasing moments from Anandwan
+- **Authentication** - Secure login/registration for volunteers and authorizers
+- **Volunteer Dashboard** - Make donations or shop handcrafted items
+- **Payment Flow** - Seamless donation process with multiple payment methods
+- **Admin Dashboard** - View, search, filter, and analyze all donations
+- **Marketplace** - Browse handcrafted items made by the Anandwan community
 
-### Visitor Dashboard (`/dashboard`)
-- **Hero Section**: Animated light rays, particle effects
-- **Our Special Abilities**: 5 premium story cards with 3D hover effects
-- **Full Story Experience**: Immersive modal with scroll-based storytelling
-- **Timeline Format**: Before → Struggle → Transformation → Present
-- **Special Arts Button**: Fixed position with ink spread hover effect
+### 🔧 Backend
+- **RESTful API** - Built with Node.js + Express.js
+- **MongoDB Database** - Secure data storage with Mongoose ODM
+- **JWT Authentication** - Token-based secure authentication
+- **Role-Based Access** - Volunteer and Authorizer roles
+- **Password Security** - bcrypt hashing
+- **Input Validation** - express-validator
+- **Security** - Helmet, CORS, rate limiting
 
-### Special Arts Gallery (`/special-arts`)
-- Premium product showcase with creator stories
-- 3D card animations on hover
-- Product detail modal with full creator narrative
-- Shopping cart UI (ready for backend)
+## 🚀 Quick Start
 
-### Admin Panel (`/admin`)
-- Simple upload interface for photos/videos/notes
-- AI story generation (simulated) for:
-  - Instagram (hooks, captions, hashtags)
-  - LinkedIn (professional impact stories)
-  - Website (full emotional narratives)
-- One-click publishing workflow
+### Prerequisites
+- Node.js 18+
+- MongoDB (local or Atlas)
 
-## 🎨 Design System
+### Installation
 
-### Colors
-- Warm beige (#F4ECD8) - vintage paper
-- Sepia brown (#704214) - ink
-- Muted gold - accents
-- Ink black (#2C1810) - text
-
-### Typography
-- **Playfair Display**: Serif headings
-- **Caveat**: Handwritten quotes
-- **Courier Prime**: Typewriter body text
-
-### UI Elements
-- Letter cards with torn edges
-- Ink stamp badges
-- Floating particles
-- 3D hover effects with perspective
-- Scroll-based parallax
-- Typewriter animations
-
-## 🚀 Getting Started
-
-Install dependencies:
+1. **Clone the repository**
 ```bash
-npm install
+git clone <your-repo-url>
+cd anandwan
 ```
 
-Run development server:
+2. **Run setup script**
+```bash
+# Windows
+setup.bat
+
+# Mac/Linux
+chmod +x setup.sh
+./setup.sh
+```
+
+3. **Start MongoDB**
+```bash
+# macOS
+brew services start mongodb-community
+
+# Windows
+net start MongoDB
+
+# Linux
+sudo systemctl start mongodb
+```
+
+4. **Start backend server**
+```bash
+cd server
+npm run dev
+```
+
+5. **Start frontend** (in new terminal)
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
-
-## 📁 Project Structure
-
-```
-app/
-├── auth/page.tsx          # Authentication entry
-├── dashboard/page.tsx     # Visitor dashboard
-├── special-arts/page.tsx  # Product gallery
-├── admin/page.tsx         # Content controller
-├── stories/[slug]/        # Individual stories
-├── marketplace/           # Products
-└── visit/                 # Visit info
-
-components/
-├── ParticleBackground.tsx # Floating particles
-├── SpecialAbilities.tsx   # Story cards section
-├── SpecialArtsButton.tsx  # Fixed CTA button
-├── Hero.tsx               # Hero section
-└── StoryFeed.tsx          # Story feed
-
-public/images/             # Add your images here
+6. **Create test users**
+```bash
+# See QUICK_START.md for commands
 ```
 
-## 📸 Adding Real Images
+7. **Open browser**
+```
+http://localhost:3000
+```
 
-Place your Anandwan images in `public/images/`:
-- `workshop1.jpg` - Sewing workshop
-- `sewing.jpg` - Tailoring work
-- `music.jpg` - Musical performance
-- `crafts.jpg` - Handicrafts
-- `community.jpg` - Community gathering
-- `weaving.jpg`, `embroidery.jpg`, `stole.jpg`, etc.
+## 📚 Documentation
 
-See `SETUP.md` for detailed image requirements.
+- **[QUICK_START.md](QUICK_START.md)** - Fast setup guide with troubleshooting
+- **[INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md)** - Detailed integration steps
+- **[INTEGRATION_COMPLETE.md](INTEGRATION_COMPLETE.md)** - What's implemented
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture diagrams
+- **[TECH_STACK.md](TECH_STACK.md)** - Complete technology overview
+- **[server/README.md](server/README.md)** - Backend API documentation
+
+## 🏗️ Project Structure
+
+```
+anandwan/
+├── app/                      # Next.js pages
+│   ├── landing/             # Landing page
+│   ├── auth/                # Login page
+│   ├── register/            # Registration page
+│   ├── volunteer-dashboard/ # Volunteer dashboard
+│   ├── payment/             # Donation flow
+│   ├── admin/               # Admin dashboard
+│   ├── gallery/             # Video gallery
+│   └── marketplace/         # Handcrafted items
+├── components/              # React components
+│   └── landing/            # Landing page components
+├── lib/                     # Utilities
+│   └── api.ts              # API client
+├── server/                  # Backend
+│   ├── models/             # Database schemas
+│   ├── controllers/        # Request handlers
+│   ├── routes/             # API routes
+│   └── middleware/         # Auth middleware
+├── public/                  # Static assets
+│   ├── images/             # Images
+│   └── videos/             # Videos
+└── Documentation files
+```
+
+## 🎨 Design System
+
+### Colors
+- **Vintage Paper** (#F4ECD8) - Background
+- **Vintage Ink** (#2C1810) - Primary text
+- **Vintage Sepia** (#704214) - Secondary
+- **Vintage Stamp** (#8B4513) - Accents
+
+### Typography
+- **Playfair Display** - Serif headings
+- **Lora** - Body text
+- **Courier Prime** - Typewriter effect
+
+## 🔐 User Roles
+
+### Volunteer
+- Register and login
+- Make donations
+- View donation history
+- Shop handcrafted items
+
+### Authorizer (Admin)
+- Login to admin dashboard
+- View all donations
+- Search and filter donations
+- Analyze donation statistics
+
+## 🌐 API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Register user
+- `POST /api/auth/login` - Login user
+- `POST /api/auth/logout` - Logout user
+
+### Donations
+- `POST /api/donations` - Create donation (Volunteer)
+- `GET /api/donations/my` - Get my donations (Volunteer)
+- `GET /api/donations/all` - Get all donations (Authorizer)
+- `GET /api/donations/:id` - Get single donation
+
+### Users
+- `GET /api/users/profile` - Get user profile
+- `PUT /api/users/profile` - Update profile
+
+## 🧪 Testing
+
+### Test Credentials
+
+**Volunteer:**
+- Email: `volunteer@test.com`
+- Password: `password123`
+
+**Admin:**
+- Email: `admin@test.com`
+- Password: `password123`
+
+## 🚀 Deployment
+
+### Frontend (Vercel)
+1. Push to GitHub
+2. Import to Vercel
+3. Set environment variable: `NEXT_PUBLIC_API_URL`
+4. Deploy
+
+### Backend (Railway/Heroku)
+1. Push to GitHub
+2. Connect to Railway/Heroku
+3. Set environment variables
+4. Deploy
+
+### Database (MongoDB Atlas)
+1. Create cluster
+2. Get connection string
+3. Update `MONGODB_URI` in production
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js 14, React 18, TypeScript
-- **Styling**: Tailwind CSS with custom vintage theme
-- **Animations**: Framer Motion (3D effects, parallax, scroll-based)
-- **Icons**: Lucide React
-- **Effects**: Canvas-based particle system
+**Frontend:**
+- Next.js 14.2
+- React 18.3
+- TypeScript 5.3
+- Tailwind CSS 3.4
+- Framer Motion 11.0
 
-## 🎯 User Flows
+**Backend:**
+- Node.js
+- Express.js 4.18
+- MongoDB
+- Mongoose 8.0
+- JWT
+- bcryptjs
 
-### Visitor Journey
-1. `/auth` → Choose "Enter as Visitor"
-2. `/dashboard` → Explore "Our Special Abilities"
-3. Click story card → Full immersive story experience
-4. Click "View Our Creations" → `/special-arts`
-5. Browse products → Click for creator story
+**Security:**
+- Helmet
+- CORS
+- Rate Limiting
+- Input Validation
 
-### Admin Journey
-1. `/auth` → Choose "Enter as Authorizer"
-2. `/admin` → Upload content
-3. AI generates stories
-4. One-click publish
+## 📞 Support
 
-## 🔮 Next Steps
+For issues or questions:
+1. Check documentation files
+2. Review `QUICK_START.md` for setup issues
+3. Check browser console for frontend errors
+4. Check server terminal for backend errors
 
-1. Backend API (Node.js/FastAPI)
-2. PostgreSQL database
-3. Cloud storage for media
-4. AI text generation integration
-5. Social media APIs
-6. Payment gateway
-7. Analytics dashboard
+## 🎯 Mission
 
-## 💡 Design Philosophy
-
-Every element reinforces the mission. The experience is:
-- **Emotionally powerful**, not corporate
-- **Authentic and raw**, not polished
-- **Story-driven**, not product-focused
-- **Immersive**, not transactional
-
-This is a living archive of human resilience.
+This platform preserves the dignity and stories of Anandwan, ensuring that every contribution—whether through donations or purchases—supports real people and real transformations.
 
 ---
 
-**This is about REAL PEOPLE, REAL WORK, REAL LIVES.**
+**"Every contribution helps preserve the stories of Anandwan"**
+
+Last Updated: April 2026
+Version: 1.0.0
+Status: Production Ready ✅

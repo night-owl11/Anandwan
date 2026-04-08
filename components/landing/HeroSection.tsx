@@ -93,7 +93,7 @@ export default function HeroSection({ mousePosition }: { mousePosition: { x: num
               className="absolute top-full right-0 mt-2 w-80 bg-white border-4 border-vintage-stamp shadow-2xl overflow-hidden z-50"
             >
               <Link
-                href="/auth"
+                href="/auth?role=volunteer"
                 className="block px-6 py-5 font-serif text-base text-vintage-ink hover:bg-vintage-stamp/20 border-b-2 border-vintage-sepia/30 transition-colors"
               >
                 <div className="flex items-center gap-4">
@@ -106,14 +106,27 @@ export default function HeroSection({ mousePosition }: { mousePosition: { x: num
               </Link>
               
               <Link
-                href="/admin"
-                className="block px-6 py-5 font-serif text-base text-vintage-ink hover:bg-vintage-stamp/20 transition-colors"
+                href="/auth?role=authorizer"
+                className="block px-6 py-5 font-serif text-base text-vintage-ink hover:bg-vintage-stamp/20 border-b-2 border-vintage-sepia/30 transition-colors"
               >
                 <div className="flex items-center gap-4">
                   <User className="w-6 h-6 text-vintage-stamp" />
                   <div>
                     <div className="font-bold text-lg text-vintage-ink">Sign in as Anandwan's Authorizer</div>
                     <div className="text-sm text-vintage-fade mt-1 font-body">Manage content and stories</div>
+                  </div>
+                </div>
+              </Link>
+
+              <Link
+                href="/register"
+                className="block px-6 py-5 font-serif text-base text-white bg-vintage-stamp hover:bg-vintage-sepia transition-colors"
+              >
+                <div className="flex items-center gap-4">
+                  <User className="w-6 h-6 text-white" />
+                  <div>
+                    <div className="font-bold text-lg text-white">Create New Account</div>
+                    <div className="text-sm text-vintage-paper/80 mt-1 font-body">Register as volunteer or admin</div>
                   </div>
                 </div>
               </Link>
