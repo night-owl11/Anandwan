@@ -1,5 +1,5 @@
 // API Configuration and Utilities
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://anandwan.onrender.com/api";
 
 // Get token from localStorage
 const getToken = (): string | null => {
