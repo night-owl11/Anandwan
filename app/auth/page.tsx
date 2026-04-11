@@ -1,17 +1,22 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
 import Link from 'next/link';
 import { authAPI } from '@/lib/api';
 
-// 1. This is your existing logic, moved to a sub-component
+/**
+ * LoginForm Component
+ * Handles the actual login logic. This must be inside Suspense 
+ * because it uses the useSearchParams() hook.
+ */
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  
+  // Logic to switch UI between Volunteer and Authorizer based on URL (?role=authorizer)
   const roleParam = searchParams.get('role'); 
   const isAuthorizer = roleParam === 'authorizer';
   
@@ -29,9 +34,8 @@ function LoginForm() {
       const response = await authAPI.login({ email, password });
       
       if (response.success) {
-        if (response.user.role === 'volunteer') {
-          router.push('/volunteer-dashboard');
-        } else if (response.user.role === 'authorizer') {
+        // Role-based redirection logic
+        if (response.user.role === 'authorizer') {
           router.push('/admin');
         } else {
           router.push('/volunteer-dashboard');
@@ -44,11 +48,11 @@ function LoginForm() {
   };
 
   return (
-    <div className="relative w-full max-w-md">
-      {/* Back Link */}
+    <div className="relative w-full max-w-md z-10">
+      {/* Navigation Back */}
       <Link 
         href="/landing"
-        className="inline-flex items-center gap-2 mb-8 text-vintage-text hover:text-vintage-stamp transition-colors font-serif"
+        className="inline-flex items-center gap-2 mb-8 text-vintage-ink hover:text-vintage-stamp transition-colors font-serif"
       >
         <ArrowRight className="w-4 h-4 rotate-180" />
         Back to Home
@@ -58,9 +62,9 @@ function LoginForm() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative bg-white p-10 shadow-2xl"
+        className="relative bg-white p-10 shadow-2xl border-2 border-vintage-fade/10"
       >
-        {/* Corner Decorations */}
+        {/* Corner Aesthetic Decorations */}
         <div className="absolute -top-3 -left-3 w-12 h-12 border-t-4 border-l-4 border-vintage-stamp" />
         <div className="absolute -top-3 -right-3 w-12 h-12 border-t-4 border-r-4 border-vintage-stamp" />
         <div className="absolute -bottom-3 -left-3 w-12 h-12 border-b-4 border-l-4 border-vintage-stamp" />
@@ -104,7 +108,7 @@ function LoginForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 bg-vintage-paper/50 border-2 border-vintage-fade/30 focus:border-vintage-stamp outline-none transition-colors font-body text-vintage-text"
-                placeholder="volunteer@anandwan.org"
+                placeholder="email@example.com"
                 required
               />
             </div>
@@ -132,7 +136,7 @@ function LoginForm() {
             whileTap={{ scale: 0.98 }}
             className="w-full py-4 bg-vintage-stamp hover:bg-vintage-sepia text-white font-serif text-lg transition-colors flex items-center justify-center gap-3 disabled:opacity-50"
           >
-            {isLoading ? <span>Logging in...</span> : <><p>Continue</p><ArrowRight className="w-5 h-5" /></>}
+            {isLoading ? <span>Authenticating...</span> : <><p>Continue</p><ArrowRight className="w-5 h-5" /></>}
           </motion.button>
         </form>
 
@@ -155,31 +159,36 @@ function LoginForm() {
   );
 }
 
-// 2. This is the main page component that Vercel looks for
-export default function LoginPage() {
+/**
+ * Main Page Component
+ * Wraps the form in a Suspense boundary to allow Vercel/Next.js to 
+ * build the page successfully.
+ */
+export default function AuthPage() {
   return (
-    <main className="min-h-screen bg-vintage-paper flex items-center justify-center p-4">
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle, #704214 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-        }} />
+    <main className="min-h-screen bg-vintage-paper flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background Texture Overlay */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div 
+          className="absolute inset-0" 
+          style={{
+            backgroundImage: 'radial-gradient(circle, #704214 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }} 
+        />
       </div>
 
-      {/* This Suspense boundary fixes the Vercel error */}
-      <Suspense fallback={<div className="text-vintage-sepia font-serif">Loading Anandwan Portal...</div>}>
+      {/* CRITICAL: The Suspense boundary here catches the useSearchParams() 
+        hook inside LoginForm and prevents the Vercel build error.
+      */}
+      <Suspense fallback={
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-vintage-stamp border-t-transparent rounded-full animate-spin" />
+          <p className="text-vintage-sepia font-serif animate-pulse">Entering Anandwan Portal...</p>
+        </div>
+      }>
         <LoginForm />
       </Suspense>
     </main>
-  );
-}
-import { Suspense } from 'react';
-import AuthForm from './AuthForm';
-
-export default function AuthPage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <AuthForm />
-    </Suspense>
   );
 }
