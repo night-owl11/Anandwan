@@ -173,3 +173,13 @@ export default function LoginPage() {
     </main>
   );
 }
+import { Suspense } from 'react';
+import AuthForm from './AuthForm';
+
+export default function AuthPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthForm />
+    </Suspense>
+  );
+}
